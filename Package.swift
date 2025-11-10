@@ -4,7 +4,9 @@ import PackageDescription
 
 let package = Package(
     name: "KomojuSDK",
-    platforms: [.iOS(.v17)],
+    platforms: [
+        .iOS(.v17)
+    ],
     products: [
         .library(
             name: "KomojuSDK",
