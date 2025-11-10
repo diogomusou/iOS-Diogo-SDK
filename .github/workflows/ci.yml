@@ -1,0 +1,33 @@
+name: Swift Package CI
+
+on:
+#  push:
+#    branches: [ main, develop ]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: macos-26
+
+    steps:
+      # 1. Checkout repository
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. Select Xcode (make sure the correct Xcode is used)
+      - name: Select Xcode
+        run: sudo xcode-select -switch /Applications/Xcode.app
+
+      # 3. Resolve package dependencies
+      - name: Resolve Package Dependencies
+        run: xcodebuild -resolvePackageDependencies -scheme KomojuSDK-Package
+
+      # 4. Run tests on iOS simulator
+      - name: Run Tests
+        run: |
+          xcodebuild \
+            -scheme KomojuSDK-Package \
+            -destination 'platform=iOS Simulator,OS=26.1,name=iPhone 17' \
+            clean test \
+            -enableCodeCoverage YES \
+            | tee xcodebuild.log | xcpretty
