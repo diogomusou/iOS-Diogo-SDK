@@ -31,19 +31,3 @@ jobs:
             clean test \
             -enableCodeCoverage YES \
             | tee xcodebuild.log | xcpretty
-
-      # 5. Export coverage to lcov
-      - name: Generate Coverage Report
-        run: |
-          mkdir -p coverage
-          xcrun llvm-cov export \
-            --instr-profile DerivedData/KomojuSDK-Package/Logs/Test/*.xcresult/1.profdata \
-            DerivedData/KomojuSDK-Package/Build/Products/Debug/*Tests.xctest/Contents/MacOS/* \
-            -format=lcov > coverage/coverage.lcov
-
-      # 6. Upload coverage to Codecov
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v4
-        with:
-          files: coverage/coverage.lcov
-          fail_ci_if_error: true
