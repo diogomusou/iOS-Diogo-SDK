@@ -27,7 +27,7 @@ jobs:
         run: |
           xcodebuild \
             -scheme KomojuSDK-Package \
-            -destination 'platform=iOS Simulator,OS=17.1,name=iPhone 17' \
+            -destination 'platform=iOS Simulator,OS=26.1,name=iPhone 17' \
             clean test \
             -enableCodeCoverage YES \
             | tee xcodebuild.log | xcpretty
