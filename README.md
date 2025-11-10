@@ -142,6 +142,7 @@ final class YourCreditCardFormViewModel {
     - more customization
     - proper transition after payment is complete
 11. Support for older iOS and other OS
+12. Re-add swiftlint: I used it as a plugin during development to show warnings/errors when building, but I ended up removing it because of github actions issues.
     
 ## **🛠 Requirements**
 
