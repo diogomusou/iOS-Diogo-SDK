@@ -4,7 +4,7 @@ import PackageDescription
 
 let package = Package(
     name: "KomojuSDK",
-    platforms: [.iOS(.v17), .macOS(.v12)],
+    platforms: [.iOS(.v17)],
     products: [
         .library(
             name: "KomojuSDK",
@@ -15,23 +15,19 @@ let package = Package(
             targets: ["KomojuSDKUI"]
         ),
     ],
-    dependencies: [
-        .package(url: "https://github.com/SimplyDanny/SwiftLintPlugins", from: "0.62.2")
-    ],
+    dependencies: [],
     targets: [
         .target(
             name: "KomojuSDK",
-            plugins: [.plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")]
+//            plugins: [.plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")]
         ),
         .target(
             name: "KomojuSDKUI",
             dependencies: ["KomojuSDK"],
-            plugins: [.plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")]
         ),
         .testTarget(
             name: "KomojuSDKTests",
             dependencies: ["KomojuSDK"],
-            plugins: [.plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")]
         ),
         .testTarget(
             name: "KomojuSDKUITests",
@@ -39,7 +35,6 @@ let package = Package(
                 "KomojuSDK",
                 "KomojuSDKUI"
             ],
-            plugins: [.plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")]
         ),
     ]
 )
