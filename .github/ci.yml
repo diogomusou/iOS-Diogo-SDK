@@ -1,0 +1,58 @@
+name: Swift Package CI
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: macos-14
+
+    steps:
+      # 1. Checkout repository
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. Set up Swift
+      - name: Set up Swift
+        uses: fwal/setup-swift@v2
+        with:
+          swift-version: '6.2'  # change to your Swift version
+
+      # 3. Cache build artifacts
+      - name: Cache Swift Package
+        uses: actions/cache@v4
+        with:
+          path: .build
+          key: ${{ runner.os }}-swift-${{ hashFiles('**/Package.resolved') }}
+
+      # 4. Build Package
+      - name: Build Package
+        run: swift build --disable-sandbox
+
+      # 5. Run Tests with coverage
+      - name: Run Tests with Coverage
+        run: swift test --disable-sandbox --enable-test-discovery --enable-code-coverage
+
+      # 6. Generate lcov coverage report
+      - name: Generate Coverage Report
+        run: |
+          mkdir -p coverage
+          xcrun llvm-cov export \
+            --instr-profile .build/debug/codecov/default.profdata \
+            .build/debug/*Tests.xctest/Contents/MacOS/* \
+            -format=lcov > coverage/coverage.lcov
+
+      # 7. Upload coverage report as artifact
+      - name: Upload coverage artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage/coverage.lcov
+
+      # 8. Display coverage in GitHub Checks
+      - name: Show coverage summary
+        uses: tonybaloney/coverage-report-action@v1
+        with:
+          path: coverage/coverage.lcov

@@ -4,10 +4,15 @@ import PackageDescription
 
 let package = Package(
     name: "KomojuSDK",
+    platforms: [.iOS(.v17)],
     products: [
         .library(
             name: "KomojuSDK",
             targets: ["KomojuSDK"]
+        ),
+        .library(
+            name: "KomojuSDKUI",
+            targets: ["KomojuSDKUI"]
         ),
     ],
     dependencies: [
@@ -18,9 +23,23 @@ let package = Package(
             name: "KomojuSDK",
             plugins: [.plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")]
         ),
+        .target(
+            name: "KomojuSDKUI",
+            dependencies: ["KomojuSDK"],
+            plugins: [.plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")]
+        ),
         .testTarget(
             name: "KomojuSDKTests",
-            dependencies: ["KomojuSDK"]
+            dependencies: ["KomojuSDK"],
+            plugins: [.plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")]
+        ),
+        .testTarget(
+            name: "KomojuSDKUITests",
+            dependencies: [
+                "KomojuSDK",
+                "KomojuSDKUI"
+            ],
+            plugins: [.plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")]
         ),
     ]
 )
