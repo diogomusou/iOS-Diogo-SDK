@@ -7,7 +7,7 @@ on:
 
 jobs:
   test:
-    runs-on: macos-14
+    runs-on: macos-26
 
     steps:
       # 1. Checkout repository
@@ -17,8 +17,8 @@ jobs:
       # 2. Set up Swift
       - name: Set up Swift
         uses: fwal/setup-swift@v2
-        with:
-          swift-version: '5.9'
+      - name: Get swift version
+        run: swift --version
 
       # 3. Cache build artifacts
       - name: Cache Swift Package
