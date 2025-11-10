@@ -51,8 +51,9 @@ jobs:
           name: coverage-report
           path: coverage/coverage.lcov
 
-      # 8. Display coverage in GitHub Checks
-      - name: Show coverage summary
-        uses: tonybaloney/coverage-report-action@v1
+      # 8. Upload coverage to Codecov
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
         with:
-          path: coverage/coverage.lcov
+          files: coverage.lcov
+          fail_ci_if_error: true
